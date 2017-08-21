@@ -17,12 +17,13 @@ define('AMP_MU_CURRENT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define('AMP_MU_PLUGIN_TARGET_FILE', AMP_MU_CURRENT_PLUGIN_DIR . 'plugin/ampforwp-plugin-supporter.php' );
 
 register_activation_hook( __FILE__, 'ampforwp_plugin_supporter_activator' );
-
+//Run this function on activation
 function ampforwp_plugin_supporter_activator() {
+	//If MU plugins directory is not available, create it
 	if (!file_exists(WPMU_PLUGIN_DIR)) {
 		@mkdir(WPMU_PLUGIN_DIR);
 	}
-	
+	//If it is already created
 	if ( file_exists( AMP_MU_PLUGIN_TARGET_FILE )) {
 		@copy( AMP_MU_PLUGIN_TARGET_FILE , WPMU_PLUGIN_DIR . "/ampforwp-plugin-supporter.php");
 	}
@@ -36,6 +37,8 @@ function  ampforwp_plugin_supporter_deactivation_hook() {
 	if ( file_exists( WPMU_PLUGIN_DIR . "/ampforwp-plugin-supporter.php" ) ) {
 		@unlink( WPMU_PLUGIN_DIR . "/ampforwp-plugin-supporter.php" );
 	}
+	// Delete the option from options table after deactivating this plugin
+	delete_option( 'ampforwp_activated_plugins_list' );
 
 }
 
@@ -75,20 +78,27 @@ if ( ! function_exists( 'ampforwp_plugin_creator_settings_link' ) ) {
 				return $actions;
 	}
 }
+// Get all the active plugins
 function get_the_active_plugins() {
-    $plugins = array();
-    $plugins = get_option ( 'active_plugins' );
-    $plugins = array_flip($plugins);
-    return $plugins;
+    $active_plugins = array();
+    $active_plugins = get_option ( 'active_plugins' );
+    // Flip the array to display the names of the plugins
+    $active_plugins = array_flip($active_plugins);
+    return $active_plugins;
 }
-function list_the_plugins_names(){
-    $new_array = array();
-    $arrray = get_the_active_plugins();
-    foreach ($arrray as $key => $value) {
-        $new_array[ $key] =  $key;
-    }
-    return $new_array;
+// Get the list of activated plugins to show in AMP options panel
+function list_of_activated_plugins(){
+    $activated_plugins_list = array();
+    $all_active_plugins = array();
+    $all_active_plugins = get_the_active_plugins();
+    if( $all_active_plugins){
+	    foreach ($all_active_plugins as $key => $value) {
+	        $activated_plugins_list[ $key] =  $key;
+	    }
+	}
+    return $activated_plugins_list;
 }
+// Add a section for Plugin manager in AMP Options
 add_filter("redux/options/redux_builder_amp/sections", 'ampforwp_settings_to_disable_plugins');
 
 if ( ! function_exists( 'ampforwp_settings_to_disable_plugins' ) ) {
@@ -104,7 +114,7 @@ if ( ! function_exists( 'ampforwp_settings_to_disable_plugins' ) ) {
 return $sections;
 }
 }
-
+//Create controls for Plugin manager option panel
 function ampforwp_create_controls_for_plugin_manager(){
 	  $controls[]  = 	array(
                         'id'        =>'amp-plugin-manager-switch',
@@ -120,14 +130,16 @@ function ampforwp_create_controls_for_plugin_manager(){
                         'type'     => 'checkbox',
                         'title'    => __('Select plugins to disable', 'accelerated-mobile-pages'),
                         'required' => array('amp-plugin-manager-switch', '=', 1),
-                        'options'     => list_the_plugins_names(),
+                        'options'     => list_of_activated_plugins(),
                     );
 
          return $controls;  
  }
-add_action('redux/options/redux_builder_amp/saved', 'update_plugin_data');
-function update_plugin_data(){
+ //Update the options table by adding activated plugins list 
+add_action('redux/options/redux_builder_amp/saved', 'update_options_plugins_list');
+function update_options_plugins_list(){
 	global $redux_builder_amp; 
+	$get_data_from_redux = array();
 	$get_data_from_redux = $redux_builder_amp['amp-pm']; 
-	 update_option('new_mu_plugins', $get_data_from_redux);
+	 update_option('ampforwp_activated_plugins_list', $get_data_from_redux);
 }
