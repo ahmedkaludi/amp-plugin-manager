@@ -105,9 +105,10 @@ if ( ! function_exists( 'ampforwp_settings_to_disable_plugins' ) ) {
 			function ampforwp_settings_to_disable_plugins($sections){
 
 		$sections[] = array(
-	        'title' => __('AMPforWP Plugin Manager', 'redux-framework-demo'),
-	        'icon' => 'el el-th-large',
-					'desc'  => 'Disable Plugins in AMP',
+	        'title' => __('Plugin Manager', 'redux-framework-demo'),
+	        'icon'  => 'el el-magic',
+			'desc'  => 'You can Disable Plugins only in AMP which are causing AMP validation errors',
+
 	        'fields' =>  ampforwp_create_controls_for_plugin_manager(),
 	        );
 
@@ -128,7 +129,7 @@ function ampforwp_create_controls_for_plugin_manager(){
        $controls[]  =    array(
                         'id'       => 'amp-pm',
                         'type'     => 'checkbox',
-                        'title'    => __('Select plugins to disable', 'accelerated-mobile-pages'),
+                        'title'    => __('Select plugins to Disable only in AMP', 'accelerated-mobile-pages'),
                         'required' => array('amp-plugin-manager-switch', '=', 1),
                         'options'     => list_of_activated_plugins(),
                     );
