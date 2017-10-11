@@ -144,3 +144,5 @@ function update_options_plugins_list(){
 	$get_data_from_redux = $redux_builder_amp['amp-pm']; 
 	 update_option('ampforwp_activated_plugins_list', $get_data_from_redux);
 }
+// Remove Plugin Manager section from AMP Options Panel after activation
+Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
