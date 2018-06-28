@@ -6,7 +6,7 @@ Description: MU Plugin Creator for Accelerated Mobile Pages
 Version: 1.0
 Author: Ahmed Kaludi, Mohammed Kaludi
 Author URI: https://ampforwp.com/
-Donate link: https://www.paypal.me/Kaludi/5
+Donate link: https://www.paypal.me/Kaludi/5usd
 License: GPL2
 */
 
