@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 $listener_term = '/amp/';
 $current_url   = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '';
 //Disable the plugins only if it's AMP endpoint
-if ( strstr( $current_url, $listener_term ) ) {
+if ( strstr( $current_url, $listener_term ) ||  strstr( $current_url, '?amp') ) {
 	add_filter( 'option_active_plugins', 'ampforwp_api_request_disable_plugin' , 100);
 }
 //Get the plugins list from options
