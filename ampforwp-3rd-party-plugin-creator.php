@@ -17,6 +17,22 @@ define('AMP_MU_CURRENT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define('AMP_MU_PLUGIN_TARGET_FILE', AMP_MU_CURRENT_PLUGIN_DIR . 'plugin/ampforwp-plugin-supporter.php' );
 define('AMPFORWP_PLUGIN_MANAGER_VERSION', '1.1');
 
+// this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
+define( 'AMP_PLUGIN_MANAGER_STORE_URL', 'https://accounts.ampforwp.com/' ); // you should use your own CONSTANT name, and be sure to replace it throughout this file
+
+// the name of your product. This should match the download name in EDD exactly
+define( 'AMP_PLUGIN_MANAGER_ITEM_NAME', 'AMP Plugin Manager' );
+
+// the download ID. This is the ID of your product in EDD and should match the download ID visible in your Downloads list (see example below)
+//define( 'AMPFORWP_ITEM_ID', 2502 );
+// the name of the settings page for the license input to be displayed
+define( 'AMP_PLUGIN_MANAGER_LICENSE_PAGE', 'amp-plugin-manager' );
+if(! defined('AMP_PLUGIN_MANAGER_ITEM_FOLDER_NAME')){
+    $folderName = basename(__DIR__);
+    define( 'AMP_PLUGIN_MANAGER_ITEM_FOLDER_NAME', $folderName );
+}
+
+
 register_activation_hook( __FILE__, 'ampforwp_plugin_supporter_activator' );
 //Run this function on activation
 function ampforwp_plugin_supporter_activator() {
@@ -149,3 +165,27 @@ function update_options_plugins_list(){
 add_action('after_setup_theme', function(){
 	Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
 });
+
+
+/*
+	Plugin Update Method
+ */
+require_once dirname( __FILE__ ) . '/updater/EDD_SL_Plugin_Updater.php';
+
+// Check for updates
+function amp_plugin_manager_plugin_updater() {
+
+    // retrieve our license key from the DB
+    
+    // setup the updater
+    $edd_updater = new AMP_PLUGIN_MANAGER_EDD_SL_Plugin_Updater( AMP_PLUGIN_MANAGER_STORE_URL, __FILE__, array(
+            'version'   => AMPFORWP_PLUGIN_MANAGER_VERSION,                // current version number
+            'license'   => '',                        // license key (used get_option above to retrieve from DB)
+            'license_status'=> 'valid',
+            'item_name' => AMP_PLUGIN_MANAGER_ITEM_NAME,          // name of this plugin
+            'author'    => 'Mohammed Kaludi',                   // author of this plugin
+            'beta'      => false,
+        )
+    );
+}
+add_action( 'admin_init', 'amp_plugin_manager_plugin_updater', 0 );
