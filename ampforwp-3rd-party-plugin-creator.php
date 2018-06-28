@@ -3,7 +3,7 @@
 Plugin Name: AMPforWP Plugin Manager
 Plugin URI: https://wordpress.org/plugins/accelerated-mobile-pages/
 Description: MU Plugin Creator for Accelerated Mobile Pages
-Version: 1.0
+Version: 1.1
 Author: Ahmed Kaludi, Mohammed Kaludi
 Author URI: https://ampforwp.com/
 Donate link: https://www.paypal.me/Kaludi/5
@@ -15,6 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 define('AMP_MU_CURRENT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define('AMP_MU_PLUGIN_TARGET_FILE', AMP_MU_CURRENT_PLUGIN_DIR . 'plugin/ampforwp-plugin-supporter.php' );
+define('AMPFORWP_PLUGIN_MANAGER_VERSION', '1.1');
 
 register_activation_hook( __FILE__, 'ampforwp_plugin_supporter_activator' );
 //Run this function on activation
@@ -145,4 +146,6 @@ function update_options_plugins_list(){
 	 update_option('ampforwp_activated_plugins_list', $get_data_from_redux);
 }
 // Remove Plugin Manager section from AMP Options Panel after activation
-Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
+add_action('after_setup_theme', function(){
+	Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
+});
