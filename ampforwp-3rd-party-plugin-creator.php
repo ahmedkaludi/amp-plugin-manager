@@ -9,7 +9,6 @@ Author URI: https://ampforwp.com/
 Donate link: https://www.paypal.me/Kaludi/5
 License: GPL2
 */
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -32,6 +31,7 @@ if(! defined('AMP_PLUGIN_MANAGER_ITEM_FOLDER_NAME')){
     define( 'AMP_PLUGIN_MANAGER_ITEM_FOLDER_NAME', $folderName );
 }
 
+use ReduxCore\ReduxFramework\Redux; 
 
 register_activation_hook( __FILE__, 'ampforwp_plugin_supporter_activator' );
 //Run this function on activation
