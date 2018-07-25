@@ -31,7 +31,6 @@ if(! defined('AMP_PLUGIN_MANAGER_ITEM_FOLDER_NAME')){
     define( 'AMP_PLUGIN_MANAGER_ITEM_FOLDER_NAME', $folderName );
 }
 
-use ReduxCore\ReduxFramework\Redux; 
 
 register_activation_hook( __FILE__, 'ampforwp_plugin_supporter_activator' );
 //Run this function on activation
@@ -162,9 +161,7 @@ function update_options_plugins_list(){
 	 update_option('ampforwp_activated_plugins_list', $get_data_from_redux);
 }
 // Remove Plugin Manager section from AMP Options Panel after activation
-add_action('after_setup_theme', function(){
-	Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
-});
+Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
 
 
 /*
