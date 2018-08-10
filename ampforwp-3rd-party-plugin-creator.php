@@ -161,8 +161,9 @@ function update_options_plugins_list(){
 	 update_option('ampforwp_activated_plugins_list', $get_data_from_redux);
 }
 // Remove Plugin Manager section from AMP Options Panel after activation
-Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
-
+add_action('after_setup_theme', function(){
+	Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
+});
 
 /*
 	Plugin Update Method
