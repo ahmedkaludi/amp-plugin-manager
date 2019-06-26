@@ -13,7 +13,7 @@ $listener_term = '/amp/';
 $current_url   = $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] . '';
 $query_arg = wp_parse_args($_SERVER['REQUEST_URI']);
 //Disable the plugins only if it's AMP endpoint
-if ( strstr( $current_url, $listener_term ) || strstr( $current_url, '?amp') || (isset($query_arg['amp']) && strstr( $current_url, $query_arg['amp']) ) ) {
+if ( strstr( $current_url, $listener_term ) || strstr( $current_url, '?amp') || (isset($query_arg['amp']) && !empty($query_arg['amp']) && strstr( $current_url, $query_arg['amp']) ) ) {
 	add_filter( 'option_active_plugins', 'ampforwp_api_request_disable_plugin' , 100);
 }
 //Get the plugins list from options

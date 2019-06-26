@@ -161,9 +161,12 @@ function update_options_plugins_list(){
 	 update_option('ampforwp_activated_plugins_list', $get_data_from_redux);
 }
 // Remove Plugin Manager section from AMP Options Panel after activation
-add_action('after_setup_theme', function(){
-	Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
-});
+add_action('after_setup_theme', 'remove_plugin_manager_section_on_activation');
+function remove_plugin_manager_section_on_activation(){
+	if(class_exists('ReduxCore\\ReduxFramework\\Redux')){ 
+		 \ReduxCore\ReduxFramework\Redux::removeSection( 'redux_builder_amp','opt-plugins-manager');
+	}
+}
 
 /*
 	Plugin Update Method
