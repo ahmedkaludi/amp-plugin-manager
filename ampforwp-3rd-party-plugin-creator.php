@@ -3,7 +3,7 @@
 Plugin Name: AMPforWP Plugin Manager
 Plugin URI: https://wordpress.org/plugins/accelerated-mobile-pages/
 Description: MU Plugin Creator for Accelerated Mobile Pages
-Version: 1.1
+Version: 1.3
 Author: Ahmed Kaludi, Mohammed Kaludi
 Author URI: https://ampforwp.com/
 Donate link: https://www.paypal.me/Kaludi/5
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 
 define('AMP_MU_CURRENT_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define('AMP_MU_PLUGIN_TARGET_FILE', AMP_MU_CURRENT_PLUGIN_DIR . 'plugin/ampforwp-plugin-supporter.php' );
-define('AMPFORWP_PLUGIN_MANAGER_VERSION', '1.1');
+define('AMPFORWP_PLUGIN_MANAGER_VERSION', '1.3');
 
 // this is the URL our updater / license checker pings. This should be the URL of the site with EDD installed
 define( 'AMP_PLUGIN_MANAGER_STORE_URL', 'https://accounts.ampforwp.com/' ); // you should use your own CONSTANT name, and be sure to replace it throughout this file
